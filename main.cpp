@@ -6,6 +6,8 @@
 #include <stack>
 #include <vector>
 
+#include "../utils/VectorUtils.hpp"
+
 using namespace std;
 
 // Live coding problems, watch at
@@ -25,12 +27,32 @@ static auto x = []() {
 
 class Solution {
 public:
-  // alternative is to sort and test numbers next to each other
-  // set is easy, but wastes some space
-  bool isPowerOfTwo(int n) {}
+  bool canVisitAllRooms(vector<vector<int>> &rooms) {
+    unordered_set<int> reached;
+    queue<int> q;
+    q.push(0);
+    while (!q.empty()) {
+      int roomNumber = q.front();
+      q.pop();
+      reached.insert(roomNumber);
+      // cout << "Reached " << roomNumber << endl;
+      for (auto key : rooms[roomNumber]) {
+        if (reached.count(key) == 0) {
+          q.push(key);
+        }
+      }
+    }
+    return reached.size() == rooms.size();
+  }
 };
 
-void test1() {}
+void test1() {
+  Solution S;
+  vector<vector<int>> v{vector<int>{1}, vector<int>{2}, vector<int>{3},
+                        vector<int>{}};
+  cout << boolalpha;
+  cout << "v1 : " << S.canVisitAllRooms(v) << endl;
+}
 
 void test2() {}
 
